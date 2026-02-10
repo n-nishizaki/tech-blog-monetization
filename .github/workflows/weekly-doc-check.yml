@@ -1,0 +1,116 @@
+name: Weekly Documentation Update Check
+
+on:
+  schedule:
+    # 毎週日曜日 9:00 JST (00:00 UTC)
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # 手動実行も可能
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  create-doc-check-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Create documentation check issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const today = '${{ steps.date.outputs.date }}';
+            const issueTitle = `📝 週次ドキュメント更新チェック (${today})`;
+
+            const issueBody = `## ドキュメント更新チェック
+
+このIssueは自動生成されました。以下のチェックリストを確認し、必要に応じてドキュメントを更新してください。
+
+---
+
+### ✅ CLAUDE.md チェック項目
+
+- [ ] **現在のステータス**は最新か
+  - 進捗状況
+  - フェーズ情報
+  - 次のマイルストーン
+- [ ] **新しい意思決定**はあったか
+  - 戦略変更
+  - 技術選定
+  - プロセス改善
+- [ ] **役割分担**に変更はないか
+- [ ] **参照ドキュメント**リンクは有効か
+- [ ] **制約・ルール**の追加はあるか
+
+---
+
+### ✅ PROJECT_FRAMEWORK.md チェック項目
+
+- [ ] **プロジェクト管理プロセス**に問題はなかったか
+  - タスク管理方法
+  - 品質チェック方法
+  - コミュニケーションルール
+- [ ] **新しいベストプラクティス**は発見されたか
+- [ ] **品質基準**は適切か
+  - ドキュメント品質基準
+  - コード品質基準
+  - コンテンツ品質基準
+- [ ] **リスク管理方法**に改善点はあるか
+- [ ] **追加すべきセクション**はあるか
+
+---
+
+### ✅ その他のドキュメント
+
+- [ ] **VALUE_CHAIN.md** は最新か（存在する場合）
+- [ ] **README.md** は最新の情報を反映しているか
+- [ ] **新しいドキュメント**の作成が必要か
+
+---
+
+## 📋 チェック結果
+
+### 更新が必要なドキュメント
+<!-- ここに更新が必要なドキュメントを記載 -->
+
+-
+
+### 更新理由
+<!-- 更新が必要な理由を記載 -->
+
+-
+
+### 更新内容案
+<!-- 具体的な更新内容を記載 -->
+
+-
+
+---
+
+## 🎯 次のアクション
+
+- [ ] AI（Claude）がドキュメント更新ドラフトを作成
+- [ ] Humanがレビュー・承認
+- [ ] PRを作成してマージ
+- [ ] このIssueをクローズ
+
+---
+
+**自動生成日**: ${today}
+**次回チェック予定**: 次週日曜日
+**担当**: AI (Claude) → Human (最終承認)
+`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['documentation', 'weekly-check', 'automated']
+            });
