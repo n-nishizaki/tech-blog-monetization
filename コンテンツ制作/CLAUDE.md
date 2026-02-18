@@ -22,14 +22,19 @@
 
 ## 記事作成フロー
 
-### Phase 1: 企画・ドラフト作成
+### Phase 1: 企画・素材収集・構成設計
 1. ネタ登録フォームから記事テーマを選定
-2. STREAM型フレームワークでv1ドラフト作成
-3. オーナーレビュー → フィードバック反映
-4. v2, v3... と改善
+2. `/blog-interview [テーマ]` でオーナーにヒアリング
+3. オーナーが質問に回答（実体験・数値・改善策）
+4. `/blog-structure [テーマ]` でSTREAM構成案を設計・提示
+5. オーナーが構成案を承認（または修正指示）
 
-### Phase 2: 品質チェック
-5. 60%完成基準チェックリスト適用
+### Phase 2: 執筆・品質チェック
+6. `/blog-draft [構成案ファイル]` で本文執筆
+7. オーナーレビュー → フィードバック反映（v2, v3...）
+
+### Phase 2.5: 品質チェック
+8. `/blog-review [ドラフトファイル]` で60%完成基準チェック適用
    - [ ] 構造的完全性（STREAM揃い）
    - [ ] 証拠性（実体験ベース）
    - [ ] 最低限の品質
@@ -39,9 +44,9 @@
 6. NGなら修正、OKなら次へ
 
 ### Phase 3: 公開
-7. Jekyll形式に変換（front matter設定）
-8. GitHub Pagesにプッシュ
-9. ビルド確認、記事URL確認
+9. `/blog-publish [ドラフトファイル]` でJekyll形式変換&公開準備
+10. オーナーがgit push（手動）
+11. ビルド確認、記事URL確認
 
 ### Phase 4: 事後改善（オプション）
 10. 作図追加
@@ -87,10 +92,19 @@
 - **60%完成基準チェックリスト**: `docs/60_PERCENT_CHECKLIST.md`
 - **ブログコンセプト**: `docs/BLOG_CONCEPT.md`
 
-### スキル（今後開発予定）
-- `/blog-draft [テーマ]`: STREAM型ドラフト作成
-- `/blog-review [ファイル]`: 60%チェック実行
-- `/blog-publish [ファイル]`: Jekyll形式変換&公開
+### スキル（実装済み）
+
+記事作成フロー順:
+
+| スキル | 用途 | 引数 |
+|--------|------|------|
+| `/blog-interview [テーマ]` | 実体験・数値をヒアリング | テーマ名 |
+| `/blog-structure [テーマ]` | STREAM構成案を設計・承認 | テーマ名 |
+| `/blog-draft [構成案ファイル]` | 承認済み構成をもとに本文執筆 | 構成案のパス |
+| `/blog-review [ドラフトファイル]` | 60%完成基準チェック | ドラフトのパス |
+| `/blog-publish [ドラフトファイル]` | Jekyll形式変換&公開準備 | ドラフトのパス |
+
+各SKILL.mdの場所: `.claude/skills/[スキル名]/SKILL.md`
 
 ---
 
@@ -121,6 +135,9 @@
 - [STREAM型フレームワーク](./docs/STREAM_FRAMEWORK.md)
 - [60%完成基準チェックリスト](./docs/60_PERCENT_CHECKLIST.md)
 - [ブログコンセプト](./docs/BLOG_CONCEPT.md)
+- [インタビュー記録](./interviews/) ← `/blog-interview` の出力先
+- [構成案](./structures/) ← `/blog-structure` の出力先
+- [ドラフト](./drafts/) ← `/blog-draft` の出力先
 
 ### プロジェクト全体
 - [プロジェクト全体のCLAUDE.md](../CLAUDE.md)
