@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロジェクト体制図</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      padding: 32px 24px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 40px;
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── Top row: Human + AI ── */
+    .top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ── Section cards ── */
+    .card {
+      background: #1e2433;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-icon { font-size: 22px; }
+    .card-title { font-size: 15px; font-weight: 700; color: #f1f5f9; }
+    .card-subtitle { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+    /* Human */
+    .card.human { border-color: #3b82f6; }
+    .card.human .card-title { color: #93c5fd; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      background: #1a2744;
+      border: 1px solid #3b82f6;
+      color: #93c5fd;
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    /* AI */
+    .card.ai { border-color: #a855f7; }
+    .card.ai .card-title { color: #d8b4fe; }
+    .tag.ai-tag {
+      background: #1e1a2e;
+      border-color: #a855f7;
+      color: #d8b4fe;
+    }
+
+    /* Claude.md hierarchy */
+    .claude-section {
+      background: #1e2433;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .claude-section .card-header { margin-bottom: 16px; }
+
+    .claude-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .claude-root {
+      background: #1a2332;
+      border: 2px solid #0ea5e9;
+      border-radius: 10px;
+      padding: 14px 16px;
+      position: relative;
+    }
+    .claude-root-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    .claude-root-desc { font-size: 11px; color: #94a3b8; }
+
+    .claude-children {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      padding-left: 16px;
+      position: relative;
+    }
+    .claude-children::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, #0ea5e9, transparent);
+    }
+
+    .claude-child {
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid;
+    }
+    .claude-child.keiei {
+      border-color: #f59e0b;
+      background: #1c1a0e;
+    }
+    .claude-child.content {
+      border-color: #10b981;
+      background: #0e1c16;
+    }
+    .claude-child.marketing {
+      border-color: #6b7280;
+      background: #161618;
+    }
+    .claude-child-label {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .claude-child.keiei .claude-child-label { color: #fbbf24; }
+    .claude-child.content .claude-child-label { color: #34d399; }
+    .claude-child.marketing .claude-child-label { color: #9ca3af; }
+    .claude-child-items { font-size: 10px; color: #94a3b8; line-height: 1.6; }
+
+    /* Functional groups */
+    .func-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .func-card {
+      background: #1e2433;
+      border-radius: 12px;
+      border: 1px solid;
+      overflow: hidden;
+    }
+    .func-card.keiei { border-color: #f59e0b; }
+    .func-card.content { border-color: #10b981; }
+    .func-card.marketing { border-color: #6b7280; }
+
+    .func-header {
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .func-card.keiei .func-header { background: #1c1a0e; color: #fbbf24; }
+    .func-card.content .func-header { background: #0e1c16; color: #34d399; }
+    .func-card.marketing .func-header { background: #161618; color: #9ca3af; }
+
+    .func-body { padding: 14px 16px; }
+    .func-role { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+    .func-items { list-style: none; }
+    .func-items li {
+      font-size: 11px;
+      color: #cbd5e1;
+      padding: 3px 0;
+      border-bottom: 1px solid #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .func-items li:last-child { border-bottom: none; }
+    .func-items li::before { content: '→'; color: #475569; font-size: 10px; }
+    .badge-prep {
+      font-size: 9px;
+      background: #374151;
+      color: #9ca3af;
+      padding: 1px 6px;
+      border-radius: 10px;
+      margin-left: auto;
+    }
+
+    /* Skills section */
+    .skills-section {
+      background: #1e2433;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .skills-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .skill-box {
+      flex: 1;
+      min-width: 160px;
+      background: #151d2e;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      padding: 14px 12px;
+      position: relative;
+    }
+    .skill-box.active { border-color: #6366f1; background: #1a1f3c; }
+
+    .skill-step {
+      font-size: 9px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .skill-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #818cf8;
+      margin-bottom: 6px;
+      font-family: 'Courier New', monospace;
+    }
+    .skill-desc { font-size: 10px; color: #94a3b8; line-height: 1.5; }
+
+    .skill-input, .skill-output {
+      font-size: 9px;
+      margin-top: 6px;
+      padding: 4px 6px;
+      border-radius: 5px;
+    }
+    .skill-input {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #64748b;
+    }
+    .skill-output {
+      background: #1a2e20;
+      border: 1px solid #166534;
+      color: #4ade80;
+    }
+    .skill-arrow {
+      font-size: 20px;
+      color: #334155;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    /* Article flow */
+    .phase-label {
+      font-size: 10px;
+      color: #64748b;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Progress */
+    .progress-section {
+      background: #1e2433;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .progress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .progress-item {
+      background: #151d2e;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .progress-label { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+    .progress-bar-wrap {
+      background: #1e293b;
+      border-radius: 4px;
+      height: 6px;
+      margin-bottom: 4px;
+    }
+    .progress-bar {
+      height: 6px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+    }
+    .progress-text { font-size: 11px; color: #cbd5e1; }
+
+    /* Section titles */
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #2d3748;
+    }
+
+    /* Arrow connector */
+    .connector {
+      text-align: center;
+      font-size: 24px;
+      color: #334155;
+      margin: -8px 0;
+    }
+
+    /* Status badge */
+    .status-ok {
+      display: inline-block;
+      background: #14532d;
+      color: #4ade80;
+      border: 1px solid #166534;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .status-wip {
+      display: inline-block;
+      background: #1c3a5f;
+      color: #60a5fa;
+      border: 1px solid #1e40af;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .status-prep {
+      display: inline-block;
+      background: #374151;
+      color: #9ca3af;
+      border: 1px solid #4b5563;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>プロジェクト体制図</h1>
+  <p class="subtitle">システム思考実践ノート — AI主体ブログ運営プロジェクト（2026-02-21 現在）</p>
+
+  <div class="layout">
+
+    <!-- ① Human & AI roles -->
+    <div>
+      <div class="section-title">人間・AI 役割分担</div>
+      <div class="top-row">
+
+        <div class="card human">
+          <div class="card-header">
+            <span class="card-icon">👤</span>
+            <div>
+              <div class="card-title">Human（オーナー）</div>
+              <div class="card-subtitle">最終意思決定・承認</div>
+            </div>
+          </div>
+          <div class="tag-list">
+            <span class="tag">意思決定</span>
+            <span class="tag">方向性決定</span>
+            <span class="tag">品質最終承認</span>
+            <span class="tag">git push</span>
+            <span class="tag">外部サービス登録</span>
+            <span class="tag">収益化設定</span>
+          </div>
+        </div>
+
+        <div class="card ai">
+          <div class="card-header">
+            <span class="card-icon">🤖</span>
+            <div>
+              <div class="card-title">AI（Claude）</div>
+              <div class="card-subtitle">24h 稼働・一次制作</div>
+            </div>
+          </div>
+          <div class="tag-list">
+            <span class="tag ai-tag">ドラフト作成</span>
+            <span class="tag ai-tag">情報収集・分析</span>
+            <span class="tag ai-tag">SEOリサーチ</span>
+            <span class="tag ai-tag">タスク構造化</span>
+            <span class="tag ai-tag">品質チェック（一次）</span>
+            <span class="tag ai-tag">ドキュメント管理</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ② CLAUDE.md 階層 -->
+    <div>
+      <div class="section-title">CLAUDE.md 階層（AI への指示書）</div>
+      <div class="claude-section">
+        <div class="claude-tree">
+
+          <div class="claude-root">
+            <div class="claude-root-label">📄 CLAUDE.md（ルート）</div>
+            <div class="claude-root-desc">プロジェクト全体概要・戦略・AI-Human役割分担・フェーズ管理</div>
+          </div>
+
+          <div class="claude-children">
+            <div class="claude-child keiei">
+              <div class="claude-child-label">📋 経営企画/CLAUDE.md</div>
+              <div class="claude-child-items">
+                • 目標・KPI管理<br>
+                • フェーズ管理<br>
+                • 重要意思決定記録<br>
+                • リスク管理方針<br>
+                <br>
+                参照ドキュメント:<br>
+                PROJECT_FRAMEWORK.md<br>
+                VALUE_CHAIN.md
+              </div>
+            </div>
+            <div class="claude-child content">
+              <div class="claude-child-label">✍️ コンテンツ制作/CLAUDE.md</div>
+              <div class="claude-child-items">
+                • 記事作成5フェーズフロー<br>
+                • STREAM型フレームワーク<br>
+                • 60%完成基準<br>
+                • スキル一覧・用途<br>
+                <br>
+                参照ドキュメント:<br>
+                STREAM_FRAMEWORK.md<br>
+                60_PERCENT_CHECKLIST.md<br>
+                BLOG_CONCEPT.md
+              </div>
+            </div>
+            <div class="claude-child marketing">
+              <div class="claude-child-label">📊 マーケティング/CLAUDE.md</div>
+              <div class="claude-child-items">
+                • SEO分析フロー<br>
+                • アクセス解析フロー<br>
+                • マネタイズ最適化<br>
+                <br>
+                ステータス:<br>
+                準備中（Phase 2後半〜）
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ 機能グループ -->
+    <div>
+      <div class="section-title">機能グループ</div>
+      <div class="func-row">
+
+        <div class="func-card keiei">
+          <div class="func-header">📋 経営企画 <span class="status-wip">Phase 2 進行中</span></div>
+          <div class="func-body">
+            <div class="func-role">役割: プロジェクト戦略・目標管理・意思決定</div>
+            <ul class="func-items">
+              <li>SEOキーワードリサーチ・記事企画 ✅</li>
+              <li>Google Analytics / Search Console セットアップ</li>
+              <li>初回5記事作成・公開（1/5完了）</li>
+              <li>Google AdSense 申請準備</li>
+              <li>アフィリエイトプログラム登録</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="func-card content">
+          <div class="func-header">✍️ コンテンツ制作 <span class="status-wip">稼働中</span></div>
+          <div class="func-body">
+            <div class="func-role">役割: 記事企画・作成・編集・公開</div>
+            <ul class="func-items">
+              <li>interviews/ — インタビュー記録</li>
+              <li>structures/ — STREAM構成案</li>
+              <li>drafts/ — 執筆ドラフト群</li>
+              <li>docs/ — フレームワーク・基準</li>
+            </ul>
+            <div style="margin-top:10px; font-size:11px; color:#64748b;">
+              完成記事: 1本（2026-02-15公開）
+            </div>
+          </div>
+        </div>
+
+        <div class="func-card marketing">
+          <div class="func-header">📊 マーケティング <span class="status-prep">準備中</span></div>
+          <div class="func-body">
+            <div class="func-role">役割: SEO・解析・アフィリエイト管理</div>
+            <ul class="func-items">
+              <li>GA4 セットアップガイド</li>
+              <li>Search Console セットアップ</li>
+              <li>アクセス解析フロー（予定）</li>
+              <li>AdSense・アフィリ登録（予定）</li>
+            </ul>
+            <div style="margin-top:10px; font-size:11px; color:#64748b;">
+              Phase 2後半から本格稼働予定
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ④ Skills -->
+    <div>
+      <div class="section-title">Skills（.claude/skills/）— 記事制作フロー</div>
+      <div class="skills-section">
+        <div style="font-size:11px; color:#64748b; margin-bottom:16px;">
+          各スキルは <code style="color:#818cf8;">.claude/skills/[name]/SKILL.md</code> に定義。記事作成フロー順に実行する。
+        </div>
+
+        <div class="skills-flow">
+
+          <div class="skill-box active">
+            <div class="skill-step">Step 1</div>
+            <div class="skill-name">/blog-interview</div>
+            <div class="skill-desc">実体験・数値・感情を会話形式でヒアリング。一問一答・深掘り形式。</div>
+            <div class="skill-input">引数: テーマ名</div>
+            <div class="skill-output">出力: interviews/article-XX-*.md</div>
+          </div>
+
+          <div class="skill-arrow">→</div>
+
+          <div class="skill-box active">
+            <div class="skill-step">Step 2</div>
+            <div class="skill-name">/blog-structure</div>
+            <div class="skill-desc">インタビュー記録 × STREAM型でセクション構成を設計し、オーナー承認を得る。</div>
+            <div class="skill-input">引数: テーマ名</div>
+            <div class="skill-output">出力: structures/article-XX-*-structure.md</div>
+          </div>
+
+          <div class="skill-arrow">→</div>
+
+          <div class="skill-box active">
+            <div class="skill-step">Step 3</div>
+            <div class="skill-name">/blog-draft</div>
+            <div class="skill-desc">承認済み構成案をもとに本文を執筆。STREAM構造を自然な日本語見出しに変換。</div>
+            <div class="skill-input">引数: structures/*.md</div>
+            <div class="skill-output">出力: drafts/article-XX-*-v1.md</div>
+          </div>
+
+          <div class="skill-arrow">→</div>
+
+          <div class="skill-box active">
+            <div class="skill-step">Step 4</div>
+            <div class="skill-name">/blog-review</div>
+            <div class="skill-desc">60%完成基準チェック。構造・証拠性・禁止事項・文字数・STREAM隠蔽を評価。</div>
+            <div class="skill-input">引数: drafts/*.md</div>
+            <div class="skill-output">出力: チェック結果レポート</div>
+          </div>
+
+          <div class="skill-arrow">→</div>
+
+          <div class="skill-box active">
+            <div class="skill-step">Step 5</div>
+            <div class="skill-name">/blog-publish</div>
+            <div class="skill-desc">Jekyll形式に変換し _posts/ へ保存。git操作はオーナーが手動実行。</div>
+            <div class="skill-input">引数: drafts/*.md</div>
+            <div class="skill-output">出力: _posts/YYYY-MM-DD-*.md</div>
+          </div>
+
+        </div>
+
+        <!-- STREAM -->
+        <div style="margin-top:20px; background:#0f1117; border-radius:8px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:10px;">STREAM型フレームワーク（記事の骨格）</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:130px; background:#1a2433; border-radius:6px; padding:8px 10px; border-top:2px solid #6366f1;">
+              <div style="font-size:11px; font-weight:700; color:#818cf8;">S — Summary</div>
+              <div style="font-size:10px; color:#94a3b8; margin-top:3px;">冒頭・結論先出し<br>200〜300字</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#1a2433; border-radius:6px; padding:8px 10px; border-top:2px solid #0ea5e9;">
+              <div style="font-size:11px; font-weight:700; color:#38bdf8;">T — Thinking Lens</div>
+              <div style="font-size:10px; color:#94a3b8; margin-top:3px;">思考のレンズ<br>300〜400字</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#1a2433; border-radius:6px; padding:8px 10px; border-top:2px solid #10b981;">
+              <div style="font-size:11px; font-weight:700; color:#34d399;">R — Root Structure</div>
+              <div style="font-size:10px; color:#94a3b8; margin-top:3px;">根本構造<br>500〜700字</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#1a2433; border-radius:6px; padding:8px 10px; border-top:2px solid #f59e0b;">
+              <div style="font-size:11px; font-weight:700; color:#fbbf24;">E — Effect</div>
+              <div style="font-size:10px; color:#94a3b8; margin-top:3px;">放置コスト<br>300〜400字</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#1a2433; border-radius:6px; padding:8px 10px; border-top:2px solid #f97316;">
+              <div style="font-size:11px; font-weight:700; color:#fb923c;">A — Adjustment</div>
+              <div style="font-size:10px; color:#94a3b8; margin-top:3px;">改善策<br>600〜800字</div>
+            </div>
+            <div style="flex:1; min-width:130px; background:#1a2433; border-radius:6px; padding:8px 10px; border-top:2px solid #a855f7;">
+              <div style="font-size:11px; font-weight:700; color:#d8b4fe;">M — Mechanism</div>
+              <div style="font-size:10px; color:#94a3b8; margin-top:3px;">定着の仕組み<br>300〜400字</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ Progress -->
+    <div>
+      <div class="section-title">現在の進捗（Phase 2）</div>
+      <div class="progress-section">
+        <div class="progress-grid">
+          <div class="progress-item">
+            <div class="progress-label">記事作成進捗</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" style="width:20%;"></div>
+            </div>
+            <div class="progress-text">1 / 5 記事完了（20%）</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-label">月次収益目標</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" style="width:0%; background:linear-gradient(90deg,#10b981,#34d399);"></div>
+            </div>
+            <div class="progress-text">$0 / $20 目標（基盤構築中）</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-label">Phase 1</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" style="width:100%; background:linear-gradient(90deg,#10b981,#34d399);"></div>
+            </div>
+            <div class="progress-text">✅ 完了（2026-02-11）</div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-label">Phase 2</div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" style="width:25%;"></div>
+            </div>
+            <div class="progress-text">🚀 進行中（2026-02-11〜）</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px; padding:12px 14px; background:#151d2e; border-radius:8px; border-left:3px solid #4ade80;">
+          <div style="font-size:11px; color:#4ade80; font-weight:700; margin-bottom:4px;">✅ 完成記事</div>
+          <div style="font-size:11px; color:#94a3b8;">
+            長期投資が続かない理由と対策【4年で+60%の実体験】— 4,481字 — 2026-02-15公開
+          </div>
+        </div>
+        <div style="margin-top:10px; padding:12px 14px; background:#151d2e; border-radius:8px; border-left:3px solid #3b82f6;">
+          <div style="font-size:11px; color:#60a5fa; font-weight:700; margin-bottom:4px;">🔜 次のマイルストーン</div>
+          <div style="font-size:11px; color:#94a3b8;">
+            記事2（ポイ活テーマ）作成 / Google Analytics & Search Console セットアップ
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:32px; font-size:11px; color:#374151;">
+    Generated by Claude — プロジェクト管理リポジトリ: tech-blog-monetization / ブログ: n-nishizaki.github.io
+  </div>
+
+</body>
+</html>
