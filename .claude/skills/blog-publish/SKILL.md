@@ -4,7 +4,7 @@ description: ブログ記事をJekyll形式に変換してn-nishizaki.github.io�
 disable-model-invocation: true
 ---
 
-# blog-publish: Jekyll形式変換 & 公開準備
+# blog-publish: Jekyll形式変換 & 公開
 
 対象ファイル: $ARGUMENTS
 
@@ -15,15 +15,25 @@ disable-model-invocation: true
 
 ## 公開手順
 
-### Step 1: 現在日付と記事番号の確認
+### Step 1: 現在日付とブログリポジトリの状態確認
 
 ```bash
 # 現在日付取得
 date +%Y-%m-%d
 
-# ブログリポジトリの既存投稿を確認
-ls /Users/norio/my-project/n-nishizaki.github.io/_posts/ | sort
+# ブログリポジトリが利用可能か確認（session-start-hook でクローン済みかどうか）
+BLOG_DIR="/home/user/n-nishizaki.github.io"
+if [ -d "$BLOG_DIR/.git" ]; then
+  echo "MODE=auto"
+  ls "$BLOG_DIR/_posts/" | sort | tail -5
+else
+  echo "MODE=manual"
+fi
 ```
+
+**MODEによって以下の手順が変わる:**
+- `auto`: ブログリポジトリに直接コピー → commit → push まで実行する
+- `manual`: `コンテンツ制作/publish-ready/` にファイル作成 → オーナーへ手動手順を案内する
 
 ### Step 2: Jekyll front matter の更新
 
@@ -55,29 +65,52 @@ description: "[120-160字のメタディスクリプション]"
 - `2026-02-20-best-points-to-collect.md`
 - `2026-02-20-offshore-vendor-selection.md`
 
-### Step 4: 公開用ファイルをブログリポジトリに作成
+### Step 4: ファイルの保存と公開
 
-対象のドラフトファイルをJekyll形式に変換して以下に保存:
-`/Users/norio/my-project/n-nishizaki.github.io/_posts/[YYYY-MM-DD-slug].md`
+#### MODE=auto の場合（GITHUB_TOKEN設定済み・推奨）
 
-**注意**: ファイルの作成のみ行う。git操作（add/commit/push）は行わない。
+以下を順番に実行する:
 
-### Step 5: ビルドプレビュー確認（オプション）
+1. Jekyll形式のファイルを `/home/user/n-nishizaki.github.io/_posts/[YYYY-MM-DD-slug].md` に作成
+2. `コンテンツ制作/publish-ready/` にも同じファイルを作成（バックアップ）
+3. ブログリポジトリへ commit & push:
 
 ```bash
-# ブログリポジトリのディレクトリを確認
-ls /Users/norio/my-project/n-nishizaki.github.io/
+BLOG_DIR="/home/user/n-nishizaki.github.io"
+cd "$BLOG_DIR"
+git add _posts/[YYYY-MM-DD-slug].md
+git commit -m "feat: [記事タイトルの短縮版]を追加"
+git push origin main
 ```
 
-ローカルビルドが設定されている場合は確認手順を案内する。
+#### MODE=manual の場合（GITHUB_TOKEN未設定）
 
-### Step 6: 完了レポート出力
+対象のドラフトファイルをJekyll形式に変換して以下に保存:
+`コンテンツ制作/publish-ready/[YYYY-MM-DD-slug].md`
+
+### Step 5: 完了レポート出力
+
+#### MODE=auto の完了レポート
+
+```
+## 公開完了 ✅
+
+**公開ファイル**: /home/user/n-nishizaki.github.io/_posts/[ファイル名]
+**ブログURL**: https://n-nishizaki.github.io/posts/[スラッグ]/
+**文字数**: [XX]字
+
+**公開後の確認**（2-3分後）:
+1. GitHub Actions のビルド完了を確認
+2. https://n-nishizaki.github.io/posts/[スラッグ]/ にアクセスして表示を確認
+```
+
+#### MODE=manual の完了レポート
 
 ```
 ## 公開準備完了
 
-**作成ファイル**: /Users/norio/my-project/n-nishizaki.github.io/_posts/[ファイル名]
-**ブログURL**: https://n-nishizaki.github.io/posts/[スラッグ]/
+**作成ファイル**: コンテンツ制作/publish-ready/[ファイル名]
+**ブログURL（公開後）**: https://n-nishizaki.github.io/posts/[スラッグ]/
 **文字数**: [XX]字
 
 ## オーナーの作業（手動）
@@ -85,25 +118,20 @@ ls /Users/norio/my-project/n-nishizaki.github.io/
 以下をオーナーが実行してください:
 
 ```bash
-cd /Users/norio/my-project/n-nishizaki.github.io
+cp ~/tech-blog-monetization/コンテンツ制作/publish-ready/[ファイル名] \
+   ~/my-project/n-nishizaki.github.io/_posts/
+cd ~/my-project/n-nishizaki.github.io
 git add _posts/[ファイル名]
 git commit -m "feat: [記事タイトルの短縮版]を追加"
 git push origin main
 ```
 
-**公開後の確認**:
-1. GitHub Actions のビルド完了を確認（2-3分）
-2. https://n-nishizaki.github.io/posts/[スラッグ]/ にアクセスして表示を確認
-3. メタディスクリプションが正しく表示されているか確認
-
-## 公開後タスク（コンテンツ制作CLAUDE.mdに記録）
-
-- [ ] 完成済み記事一覧に追加
-- [ ] 次の記事の計画を開始
+💡 GITHUB_TOKEN を Claude Code 設定に追加すると次回から自動化されます。
 ```
 
-## 禁止事項
+## ルール
 
-- git add / git commit / git push は実行しない（オーナーが手動で行う）
-- ブログリポジトリの既存ファイルを変更しない
-- ドラフトファイル（コンテンツ制作/drafts/）を削除しない
+- ドラフトファイル（コンテンツ制作/drafts/）は削除しない
+- ブログリポジトリの既存ファイルは変更しない（_posts/ への追加のみ）
+- MODE=auto のときは git push まで実行してよい
+- MODE=manual のときは git 操作はオーナーが手動で行う
