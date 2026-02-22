@@ -18,6 +18,8 @@ if [ ! -d "$BLOG_DIR/.git" ]; then
     git clone "https://${GITHUB_TOKEN}@github.com/${BLOG_REPO}.git" "$BLOG_DIR" --quiet
     git -C "$BLOG_DIR" config user.email "n-nishizaki@users.noreply.github.com"
     git -C "$BLOG_DIR" config user.name "n-nishizaki"
+    # リモート環境の署名サーバーはこのリポジトリに対応していないため無効化
+    git -C "$BLOG_DIR" config commit.gpgsign false
     echo "✅ ブログリポジトリのクローン完了: $BLOG_DIR"
   else
     echo "⚠️  GITHUB_TOKEN が未設定です"
@@ -27,6 +29,8 @@ if [ ! -d "$BLOG_DIR/.git" ]; then
 else
   echo "ブログリポジトリを最新化中..."
   git -C "$BLOG_DIR" pull --quiet
+  # リモート環境の署名サーバーはこのリポジトリに対応していないため無効化（既存クローンも毎回確認）
+  git -C "$BLOG_DIR" config commit.gpgsign false
   echo "✅ ブログリポジトリの更新完了 ($BLOG_DIR)"
 fi
 
