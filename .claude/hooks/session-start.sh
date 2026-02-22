@@ -18,6 +18,8 @@ if [ ! -d "$BLOG_DIR/.git" ]; then
     git clone "https://${GITHUB_TOKEN}@github.com/${BLOG_REPO}.git" "$BLOG_DIR" --quiet
     git -C "$BLOG_DIR" config user.email "n-nishizaki@users.noreply.github.com"
     git -C "$BLOG_DIR" config user.name "n-nishizaki"
+    # リモート環境の署名サーバーはこのリポジトリに対応していないため無効化
+    git -C "$BLOG_DIR" config commit.gpgsign false
     echo "✅ ブログリポジトリのクローン完了: $BLOG_DIR"
   else
     echo "⚠️  GITHUB_TOKEN が未設定です"
@@ -27,17 +29,52 @@ if [ ! -d "$BLOG_DIR/.git" ]; then
 else
   echo "ブログリポジトリを最新化中..."
   git -C "$BLOG_DIR" pull --quiet
+  # リモート環境の署名サーバーはこのリポジトリに対応していないため無効化（既存クローンも毎回確認）
+  git -C "$BLOG_DIR" config commit.gpgsign false
   echo "✅ ブログリポジトリの更新完了 ($BLOG_DIR)"
 fi
 
-# publish-ready の件数を表示
-READY_COUNT=$(find "$CLAUDE_PROJECT_DIR/コンテンツ制作/publish-ready" -name "*.md" 2>/dev/null | wc -l)
-if [ "$READY_COUNT" -gt 0 ]; then
+# publish-ready vs _posts の差分チェック
+PUBLISH_READY_DIR="$CLAUDE_PROJECT_DIR/コンテンツ制作/publish-ready"
+POSTS_DIR="$BLOG_DIR/_posts"
+UNPUBLISHED=()
+
+if [ -d "$PUBLISH_READY_DIR" ] && [ -d "$POSTS_DIR" ]; then
+  while IFS= read -r -d '' ready_file; do
+    basename_ready="$(basename "$ready_file")"
+    # _posts/ に同名ファイルが存在しなければ未公開
+    if [ ! -f "$POSTS_DIR/$basename_ready" ]; then
+      UNPUBLISHED+=("$basename_ready")
+    fi
+  done < <(find "$PUBLISH_READY_DIR" -name "*.md" -print0 2>/dev/null)
+fi
+
+UNPUBLISHED_COUNT=${#UNPUBLISHED[@]}
+if [ "$UNPUBLISHED_COUNT" -gt 0 ]; then
   echo ""
-  echo "📝 公開待ち記事: ${READY_COUNT} 件"
-  find "$CLAUDE_PROJECT_DIR/コンテンツ制作/publish-ready" -name "*.md" | while read f; do
-    echo "   - $(basename "$f")"
+  echo "📝 未公開記事: ${UNPUBLISHED_COUNT} 件"
+  for f in "${UNPUBLISHED[@]}"; do
+    echo "   - $f"
   done
+  echo ""
+  echo "   👉 公開するには: /blog-publish コンテンツ制作/publish-ready/<ファイル名>"
+else
+  READY_COUNT=$(find "$PUBLISH_READY_DIR" -name "*.md" 2>/dev/null | wc -l)
+  if [ "$READY_COUNT" -gt 0 ]; then
+    echo ""
+    echo "✅ publish-ready の記事はすべて公開済みです"
+  fi
+fi
+
+# ブログリポジトリの未コミット変更チェック
+if [ -d "$BLOG_DIR/.git" ]; then
+  UNCOMMITTED=$(git -C "$BLOG_DIR" status --porcelain 2>/dev/null)
+  if [ -n "$UNCOMMITTED" ]; then
+    echo ""
+    echo "⚠️  ブログリポジトリに未コミットの変更があります:"
+    git -C "$BLOG_DIR" status --short
+    echo "   👉 必要に応じてコミット&プッシュしてください"
+  fi
 fi
 
 echo "=== セットアップ完了 ==="
