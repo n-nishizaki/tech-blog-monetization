@@ -70,6 +70,16 @@
 - **ファイル**: `/コンテンツ制作/publish-ready/2026-02-21-rakuten-points-system-design.md`
 - **記事作成スキル活用**: `/blog-interview` → `/blog-structure` → `/blog-draft` → `/blog-review` → `/blog-publish` のフルフロー適用
 
+#### 2026-02-23: 記事3完成・公開準備完了
+- **記事**: 「オフショア開発で訴訟寸前になった私がたどり着いたベンダー選定の急所【5案件の実体験】」
+- **バージョン**: v1（blog-reviewフィードバック反映版）
+- **カテゴリー**: プロジェクトマネジメント
+- **URL（公開後）**: https://n-nishizaki.github.io/posts/offshore-vendor-selection/
+- **アフィリエイト**: PM向けツール（プレースホルダー）
+- **ファイル**: `/コンテンツ制作/publish-ready/2026-02-23-offshore-vendor-selection.md`
+- **主な方針決定**: Tセクションのレンズを「属性差」→「構造的問題には構造的対策」に変更（オーナーFB反映）
+- **記事作成スキル活用**: `/blog-interview` → `/blog-structure` → `/blog-draft` → `/blog-review` → `/blog-publish` のフルフロー適用
+
 ---
 
 ## 重要な意思決定記録
@@ -105,8 +115,11 @@
 - [2026-02-21: ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】](https://n-nishizaki.github.io/posts/points-strategy/)
   - カテゴリー: 資産形成, ポイ活
   - アフィリエイト: 楽天カード、楽天銀行、楽天証券
+- [2026-02-23: オフショア開発で訴訟寸前になった私がたどり着いたベンダー選定の急所【5案件の実体験】](https://n-nishizaki.github.io/posts/offshore-vendor-selection/)
+  - カテゴリー: プロジェクトマネジメント
+  - アフィリエイト: PM向けツール（プレースホルダー、オーナー設定予定）
 
 ---
 
-**最終更新**: 2026-02-22
+**最終更新**: 2026-02-23
 **次回更新予定**: Phase 2完了時 or 月末
