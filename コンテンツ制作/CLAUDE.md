@@ -1,7 +1,7 @@
 # コンテンツ制作 - CLAUDE.md
 
 ---
-**最終更新**: 2026-02-18
+**最終更新**: 2026-02-22
 **機能**: ブログ記事の企画・作成・編集・公開
 **関連リポジトリ**: n-nishizaki.github.io
 ---
@@ -44,9 +44,10 @@
 6. NGなら修正、OKなら次へ
 
 ### Phase 3: 公開
-9. `/blog-publish [ドラフトファイル]` でJekyll形式変換&公開準備
-10. オーナーがgit push（手動）
-11. ビルド確認、記事URL確認
+9. `/blog-publish [ドラフトファイル]` でJekyll形式変換 & commit & push
+   - **リモート環境（Claude Code on the web）**: 自動でcommit & pushまで実行（オーナー操作不要）
+   - **ローカル環境**: `コンテンツ制作/publish-ready/` にファイル作成 → オーナーが手動でgit push
+10. ビルド確認、記事URL確認（GitHub Actions完了後2-3分）
 
 ### Phase 4: 事後改善（オプション）
 10. 作図追加
@@ -78,6 +79,11 @@
    - カテゴリー: 資産形成, ポイ活
    - ファイル: `/コンテンツ制作/publish-ready/2026-02-21-rakuten-points-system-design.md`
 
+2. [ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】](https://n-nishizaki.github.io/posts/rakuten-points-system-design/)
+   - 公開日: 2026-02-21
+   - カテゴリー: 資産形成, ポイ活
+   - ファイル: `/コンテンツ制作/publish-ready/2026-02-21-rakuten-points-system-design.md`
+
 詳細は [HISTORY.md](../HISTORY.md) 参照
 
 ---
@@ -103,7 +109,7 @@
 | `/blog-structure [テーマ]` | STREAM構成案を設計・承認 | テーマ名 |
 | `/blog-draft [構成案ファイル]` | 承認済み構成をもとに本文執筆 | 構成案のパス |
 | `/blog-review [ドラフトファイル]` | 60%完成基準チェック | ドラフトのパス |
-| `/blog-publish [ドラフトファイル]` | Jekyll形式変換&公開準備 | ドラフトのパス |
+| `/blog-publish [ドラフトファイル]` | Jekyll形式変換&commit&push（リモート環境では全自動） | ドラフトのパス |
 
 各SKILL.mdの場所: `.claude/skills/[スキル名]/SKILL.md`
 
