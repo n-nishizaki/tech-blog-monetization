@@ -85,12 +85,15 @@
   - [長期投資が続かない理由と対策【4年で+60%の実体験】](https://n-nishizaki.github.io/posts/long-term-investment-strategy/)
 - ✅ 記事2公開（2026-02-21）
   - [ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】](https://n-nishizaki.github.io/posts/rakuten-points-system-design/)
+- ✅ 記事3公開準備完了（2026-02-23）
+  - [オフショア開発で訴訟寸前になった私がたどり着いたベンダー選定の急所【5案件の実体験】](https://n-nishizaki.github.io/posts/offshore-vendor-selection/)
+- ✅ GA/GSCセットアップガイド作成（2026-02-18）
 - ✅ Google Analytics（GA4）セットアップ完了
 - ✅ 方針転換: 収益化ブログ→思考OSの市場接続（2026-02-22）
 
 ### 次のマイルストーン
 - Google Search Console セットアップ
-- 記事3-5の作成と公開
+- 記事4の作成
 
 ---
 

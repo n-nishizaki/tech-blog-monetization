@@ -57,6 +57,10 @@
   - STREAM構造の隠蔽による読者体験向上
   - Jekyll/GitHub Pagesの日付管理（未来日付は表示されない）
 
+#### 2026-02-18: GA/GSCセットアップガイド作成
+- Analytics関連ドキュメント7件を作成（マーケティング/analytics/）
+- プロジェクト構造可視化HTML作成
+
 #### 2026-02-21: 記事2完成・公開
 - **記事**: 「ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】」
 - **URL**: https://n-nishizaki.github.io/posts/rakuten-points-system-design/
@@ -74,6 +78,16 @@
 - **影響**: プロジェクト目的・成功指標の再定義（L1到達→L2信頼→L3機会）。アフィリエイトはおまけに格下げ
 - **変更したドキュメント**: CLAUDE.md（ルート）、経営企画/CLAUDE.md、コンテンツ制作/docs/BLOG_CONCEPT.md、マーケティング/CLAUDE.md、マーケティング/顧客像.md、経営企画/docs/VALUE_CHAIN.md
 - **変更不要だったもの**: コンテンツ制作/CLAUDE.md、STREAM型、60%完成基準、5つのカスタムスキル、既存記事
+
+#### 2026-02-23: 記事3完成・公開準備完了
+- **記事**: 「オフショア開発で訴訟寸前になった私がたどり着いたベンダー選定の急所【5案件の実体験】」
+- **バージョン**: v1（blog-reviewフィードバック反映版）
+- **カテゴリー**: プロジェクトマネジメント
+- **URL（公開後）**: https://n-nishizaki.github.io/posts/offshore-vendor-selection/
+- **アフィリエイト**: PM向けツール（プレースホルダー）
+- **ファイル**: `/コンテンツ制作/publish-ready/2026-02-23-offshore-vendor-selection.md`
+- **主な方針決定**: Tセクションのレンズを「属性差」→「構造的問題には構造的対策」に変更（オーナーFB反映）
+- **記事作成スキル活用**: `/blog-interview` → `/blog-structure` → `/blog-draft` → `/blog-review` → `/blog-publish` のフルフロー適用
 
 ---
 
@@ -119,8 +133,9 @@
   - アフィリエイト: 楽天証券、SBI証券
 - [2026-02-21: ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】](https://n-nishizaki.github.io/posts/rakuten-points-system-design/)
   - カテゴリー: 資産形成, ポイ活
-
+- [2026-02-23: オフショア開発で訴訟寸前になった私がたどり着いたベンダー選定の急所【5案件の実体験】](https://n-nishizaki.github.io/posts/offshore-vendor-selection/)
+  - カテゴリー: プロジェクトマネジメント
 ---
 
-**最終更新**: 2026-02-22
+**最終更新**: 2026-02-23
 **次回更新予定**: Phase 2完了時 or 月末

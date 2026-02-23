@@ -59,10 +59,10 @@
 ## 現在の作業状況
 
 ### 進行中の記事
-なし（記事2公開完了）
+なし（記事3公開完了）
 
 ### 次の記事（予定）
-- **記事3**: テーマ未定（ネタ登録フォームから選定）
+- **記事4**: テーマ未定（ネタ登録フォームから選定）
 
 ---
 
@@ -74,6 +74,10 @@
    - 文字数: 4,481字
    - カテゴリー: 資産形成
    - ファイル: `/コンテンツ制作/drafts/article-01-long-term-investment-v5.md`
+2. [ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】](https://n-nishizaki.github.io/posts/points-strategy/)
+   - 公開日: 2026-02-21
+   - カテゴリー: 資産形成, ポイ活
+   - ファイル: `/コンテンツ制作/publish-ready/2026-02-21-rakuten-points-system-design.md`
 
 2. [ポイントで得する人・損する人の構造的な違い【10年・38万ポイントの実体験】](https://n-nishizaki.github.io/posts/rakuten-points-system-design/)
    - 公開日: 2026-02-21
