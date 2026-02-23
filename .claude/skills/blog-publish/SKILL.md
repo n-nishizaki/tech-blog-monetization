@@ -79,9 +79,12 @@ description: "[120-160字のメタディスクリプション]"
 BLOG_DIR="/home/user/n-nishizaki.github.io"
 cd "$BLOG_DIR"
 git add _posts/[YYYY-MM-DD-slug].md
-git commit -m "feat: [記事タイトルの短縮版]を追加"
+git commit --no-gpg-sign -m "feat: [記事タイトルの短縮版]を追加"
 git push origin main
 ```
+
+> **注**: このリポジトリはGitHubに直接pushするため、ローカルの署名設定が機能しない。
+> `--no-gpg-sign` を使用すること（オーナー承認済み）。
 
 #### MODE=manual の場合（GITHUB_TOKEN未設定）
 
