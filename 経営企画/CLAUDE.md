@@ -16,4 +16,5 @@
 ## 参照
 - [プロジェクト管理フレームワーク](./docs/PROJECT_FRAMEWORK.md)
 - [バリューチェーン定義](./docs/VALUE_CHAIN.md)
+- [市場接続戦略](./docs/MARKET_CONNECTION_STRATEGY.md)
 - [レビュー履歴](./reviews/)
