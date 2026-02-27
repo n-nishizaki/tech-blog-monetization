@@ -129,3 +129,4 @@ Phase C: パターン化してレバレッジ商品に変換
 - [商品企画 CLAUDE.md](../../商品企画/CLAUDE.md)
 - [運用ドキュメント](../../商品企画/docs/operations.md)
 - [市場調査レポート 2026-02-26](../../商品企画/docs/market-research-2026-02-26.md)
+- [AI観測設計](../../マーケティング/docs/observation-design.md) — `/observe` コマンドで週次実行
